@@ -1,0 +1,177 @@
+<style>
+#enquiry-popup-mpdal{
+    display: none;
+}
+.inquiry_field label{
+	padding: 10px 0px;
+}
+.ajax-loading1 {
+    background-color: rgba(0, 0, 0, 0.5);
+    bottom: 0;
+    display: none;
+    left: 0;
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 1098;
+}
+
+.ajax-loading1 .dialog {
+    left: 50%;
+    margin: 0;
+    max-width: 80%;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.ajax-loading1 .img-loader {
+    padding: 10px 0;
+}
+
+
+.ajax-loading1 .img-loader img {
+    vertical-align: middle;
+}
+
+</style>
+<div id="ajax-loading1" class="ajax-loading1">
+    <div style="width: 260px;" class="dialog">
+        <div class="content">
+            <div class="img-loader text-center">
+                <img src="<?php echo $this->getViewFileUrl('Ocodewire_Customemail::images/loader.gif'); ?>" alt="Loading...">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="enquiry-button-outer">
+	<button name="enquiry_button" id="enquiry_button" class="button action primary"><span>More Info</span></button>
+</div>
+<div id="enquiry-popup-mpdal">
+	<div id="enquiry-form">
+			<div class="product-view">
+			   <div class="product-essential row">
+				 <div class="col-lg-12 col-md-12 col-xs-12">
+				   <h4>Request for more Information or Quote</h4>
+				 </div>
+				 <div class="col-lg-12 col-md-12 col-xs-12">
+					 <form id="enq-form-form-pop" method="post" data-mage-init='{"validation":{}}'>
+						 <div id="inquiry_content-pop" class="inquiry_content">
+							<div class="inquiry_field">
+								<label for="title" class="inquiry_label">Title <span class="required">*</span></label> 
+								<div class="">
+									<input type="text" value="" id="title" name="title" class="title" data-validate="{required:true}">
+								</div>
+							</div>	
+							<div class="inquiry_field">
+								<label for="subject" class="inquiry_label">Subject <span class="required">*</span></label>
+								<div class="">
+									<input type="text" value="" id="subject" name="subject" class="subject" data-validate="{required:true}">
+								</div>
+							</div>	
+							<div class="inquiry_field">
+								<label for="email" class="inquiry_label">Email <span class="required">*</span></label> 
+								<div class="">
+									<input type="text" value="" id="email" name="email" class="email"  data-validate="{required:true, 'validate-email':true}">
+								</div>
+							</div>
+							<div class="inquiry_field">
+								<label for="message" class="inquiry_label">Message </label> 
+								<div class="">
+									<textarea id="message" name="message" class="message"  data-validate="{required:true}"></textarea>
+								</div>	
+							</div>						
+							<div class="inquiry_field">
+								<label class="inquiry_label">&nbsp;</label>
+								<div class="">
+									<button name="enquiry-form-button-pop" id="enquiry-form-button-pop" class="button action primary"><span>Submit</span></button>
+								</div>
+							</div>
+							<div style="clear:both"></div>
+						</div>
+					 </form>
+				 </div>	 	   
+			   </div>
+			</div>
+	</div>
+</div>	
+<script type="text/javascript">
+require(
+		[
+		  'jquery',
+		  'Magento_Ui/js/modal/modal',
+		  'jquery/ui', // Jquery UI Library
+		  'jquery/validate', // Jquery Validation Library
+		  'mage/translate' // Magento text translate (Validation message translte as per language)
+
+		],
+		function(
+		  $,
+		  modal
+		) {
+		  var options = {
+		      type: 'popup',
+		      responsive: true,
+		      innerScroll: false,
+		      title: false,
+		      buttons: [{
+		          text: $.mage.__('Close And Continue'),
+		          class: '',
+		          click: function () {
+		              this.closeModal();
+		          }
+		      }]
+		  };
+
+  var popup = modal(options, $('#enquiry-popup-mpdal'));
+
+  $(document).on('click', '#enquiry_button', function(event){
+      $('#enquiry-popup-mpdal').show();
+      $('#enquiry-popup-mpdal').modal('openModal');
+  });
+	
+	jQuery(document).on('click','#enquiry-form-button-pop',function (event)
+	{ 
+	   event.preventDefault();
+	   
+	   if (jQuery('#enq-form-form-pop').valid()) 
+	   {			
+		   jQuery('.ajax-loading1').fadeIn('fast');
+		   
+		   var currentUrl = '<?php echo $this->getBaseUrl().'customemail/button/index' ?>';
+	   
+		   var form_data	=	new FormData();
+		   
+		   form_data.append("title",jQuery('#title').val());
+		   
+		   form_data.append("subject",jQuery('#subject').val());
+		   
+		   form_data.append("email",jQuery('#email').val());
+		   
+		   form_data.append("message",jQuery('#message').val());
+		   
+		   jQuery.ajax({
+				type:"POST",
+				url: currentUrl,
+				datatype:'script',
+				cache:false,	
+				contentType:false,
+				processData:false,
+				data:form_data,
+				success:function(response){						
+					alert(response.message);
+					jQuery('#enq-form-form-pop').find("input[type=text], textarea").val("");
+					jQuery('.ajax-loading1').fadeOut('fast');
+				},				
+				error:function(){
+					jQuery('.ajax-loading1').fadeOut('fast');	
+				}	
+			}); 
+	   }
+	   else
+	   {
+		   return false;
+	   }
+	 });
+});
+</script>

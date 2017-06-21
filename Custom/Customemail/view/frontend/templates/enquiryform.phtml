@@ -1,0 +1,278 @@
+<?php
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php
+$product = $block->getProduct();
+?>
+<style>	
+#enquiry_button{
+	margin-bottom:10px;
+}	
+	
+.product-img-box img{
+	height:100px;
+	width:auto;
+}
+.modal-dialog{
+	width:80%;
+}
+
+.inquiry_field{
+	margin-bottom:10px;
+	width:100%;
+	float:left;
+}
+
+#inquiry_content label span.required{
+	color:#e02b27;
+}
+
+.modal-content {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background-clip: padding-box;
+    background-color: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 6px;
+    box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+    outline: 0 none;
+    position: relative;
+}
+
+.modal-header {
+    border-bottom: 1px solid #e5e5e5;
+    min-height: 16.43px;
+    padding: 15px;
+}
+
+.modal-header .close {
+    margin-top: -2px;
+}
+
+.ajax-loading1 {
+    background-color: rgba(0, 0, 0, 0.5);
+    bottom: 0;
+    display: none;
+    left: 0;
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 1098;
+}
+
+.ajax-loading1 .dialog {
+    left: 50%;
+    margin: 0;
+    max-width: 80%;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.ajax-loading1 .img-loader {
+    padding: 10px 0;
+}
+.text-center {
+    text-align: center;
+}
+
+.ajax-loading1 .img-loader img {
+    vertical-align: middle;
+}
+
+.enquiry-button-outer{
+	float:right;
+        padding-top:15px;
+}
+
+.enquiry-button-outer .button.action{
+	min-width:150px;
+}
+
+.product-sku h3 span{
+	color:#08c
+}
+
+</style>
+<div id="ajax-loading1" class="ajax-loading1">
+    <div style="width: 260px;" class="dialog">
+        <div class="content">
+            <div class="img-loader text-center">
+                <img src="<?php echo $this->getViewFileUrl('Ocodewire_Customemail::images/loader.gif'); ?>" alt="Loading...">
+            </div>
+        </div>
+    </div>
+</div>
+<!--<div class="enquiry-button-outer">
+	<button name="enquiry_button" id="enquiry_button" class="button action primary"><span>More Info</span></button>
+</div>-->
+<div style="clear:both"></div>
+<div id="enquiry-form">
+ 
+		<div class="product-view">
+		   <div class="product-essential row">
+			 <div class="col-lg-12 col-md-12 col-xs-12">
+			   <h4>Request for more Information or Quote</h4>
+			 </div>
+			 <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:10px;">
+				 <div class="product-img-box col-lg-3 col-md-3 col-xs-12"> 
+					  <?php 
+						$productHelper 	= $this->helper('Magento\Catalog\Helper\Product'); 
+						$product_image  = $productHelper->getImageUrl($product);
+						if($product_image!='')
+						{
+							?>
+								<img style="display: block;" id="image" src="<?php echo $product_image; ?>" alt="<?php echo $product->getName(); ?>" title="<?php echo $product->getName(); ?>">    
+							<?php
+						}
+					  ?>        
+				 </div>
+				 <div class="col-lg-9 col-md-9 col-xs-12">
+					 <div class="product-shop">
+						<div class="product-name">
+						   <h3><?php echo $product->getName(); ?></h3>
+						</div>
+						<div class="product-sku">
+							<h3>Part#: <span><?php echo $product->getSku(); ?></span></h3>
+						</div>
+					 </div>
+					 <div class="clearer"></div>
+				  </div>
+			 </div>
+			 <div class="col-lg-12 col-md-12 col-xs-12">
+				 <form id="enq-form-form" method="post" data-mage-init='{"validation":{}}'>
+				 	 <input type="hidden" name="product_name" id="product_name_e" value="<?php echo $product->getName(); ?>">
+				 	 <input type="hidden" name="product_sku" id="product_sku_e" value="<?php echo $product->getSku(); ?>">
+					 <div id="inquiry_content" class="inquiry_content">
+						<div class="inquiry_field">
+							<label for="your_name" class="inquiry_label col-lg-3 col-md-3 col-xs-12">Name <span class="required">*</span></label> 
+							<div class="col-lg-9 col-md-9 col-xs-12">
+								<input type="text" value="" id="your_name" name="your_name" class="your_name" data-validate="{required:true}">
+							</div>
+						</div>	
+						<div class="inquiry_field">
+							<label for="your_email" class="inquiry_label col-lg-3 col-md-3 col-xs-12">Email <span class="required">*</span></label>
+							<div class="col-lg-9 col-md-9 col-xs-12">
+								<input type="text" value="" id="your_email" name="your_email" class="your_email"  data-validate="{required:true, 'validate-email':true}">
+							</div>
+						</div>	
+						<div class="inquiry_field">
+							<label for="your_phone" class="inquiry_label col-lg-3 col-md-3 col-xs-12">Phone <span class="required">*</span></label> 
+							<div class="col-lg-9 col-md-9 col-xs-12">
+								<input type="text" value="" id="your_phone" name="your_phone" class="your_phone" data-validate="{required:true}">
+							</div>
+						</div>
+						<div class="inquiry_field">
+							<label for="your_company" class="inquiry_label col-lg-3 col-md-3 col-xs-12">Company <span class="required">*</span> </label> 
+							<div class="col-lg-9 col-md-9 col-xs-12">
+								<input type="text" value="" id="your_company" name="your_company" class="your_company" data-validate="{required:true}">
+							</div>
+						</div>
+						<div class="inquiry_field">
+							<label class="inquiry_label col-lg-3 col-md-3 col-xs-12">Subject </label> 
+							<div class="col-lg-9 col-md-9 col-xs-12">
+								<span class="inquiry_subject"><?php echo $product->getName(); ?></span>
+							</div>
+						</div>
+						<div class="inquiry_field">
+							<label for="your_message" class="inquiry_label col-lg-3 col-md-3 col-xs-12">Message </label> 
+							<div class="col-lg-9 col-md-9 col-xs-12">
+								<textarea id="your_message" name="your_message" class="your_message"></textarea>
+							</div>	
+						</div>						
+						<div class="inquiry_field">
+							<label class="inquiry_label col-lg-3 col-md-3 col-xs-12">&nbsp;</label>
+							<div class="col-lg-9 col-md-9 col-xs-12">
+								<label class="inquiry_send_copy"><input type="checkbox" checked="checked" value="1" id="send_copy" name="send_copy"> Send a copy of this email to myself.</label>
+							</div>
+						</div>
+						<div class="inquiry_field">
+							<label class="inquiry_label col-lg-3 col-md-3 col-xs-12">&nbsp;</label>
+							<div class="col-lg-9 col-md-9 col-xs-12">
+								<button name="enquiry-form-button" id="enquiry-form-button" class="button action primary"><span>Submit</span></button>
+							</div>
+						</div>
+						<div style="clear:both"></div>
+					</div>
+				 </form>
+			 </div>	 	   
+		   </div>
+		</div>
+</div>
+<script type="text/javascript">
+require([
+	'jquery', // jquery Library
+	'jquery/ui', // Jquery UI Library
+	'jquery/validate', // Jquery Validation Library
+	'mage/translate' // Magento text translate (Validation message translte as per language)
+	], function(){		
+	jQuery('#enquiry_button').on('click',function() {
+	   jQuery('#enquiry-form').fadeIn('slow');
+	});
+	jQuery('.close-enq-form').on('click',function() {
+	   jQuery('#enquiry-form').fadeOut('slow');
+	});
+	
+	jQuery(document).on('click','#enquiry-form-button',function (event)
+	{ 
+	   event.preventDefault();
+	   
+	   if (jQuery('#enq-form-form').valid()) 
+	   {			
+		   jQuery('.ajax-loading1').fadeIn('fast');
+		   
+		   var currentUrl = '<?php echo $this->getBaseUrl().'customemail/index/index' ?>';
+	   
+		   var form_data=new FormData();
+		   
+		   form_data.append("your_name",jQuery('#your_name').val());
+
+		   form_data.append("product_name",jQuery('#product_name_e').val());
+
+		   form_data.append("product_sku",jQuery('#product_sku_e').val());
+		   
+		   form_data.append("your_email",jQuery('#your_email').val());
+		   
+		   form_data.append("your_phone",jQuery('#your_phone').val());
+		   
+		   form_data.append("your_message",jQuery('#your_message').val());
+		   
+		   form_data.append("your_company",jQuery('#your_company').val());
+		   
+		   form_data.append("send_copy",jQuery('#send_copy').is(':checked') ? 1 : 0);
+		   
+		   form_data.append("your_product_link",'<?php echo $product->getProductUrl(); ?>');
+		   
+		   jQuery.ajax({
+				type:"POST",
+				url: currentUrl,
+				datatype:'script',
+				cache:false,	
+				contentType:false,
+				processData:false,
+				data:form_data,
+				success:function(response){						
+					alert(response.message);
+					jQuery('#enq-form-form').find("input[type=text], textarea").val("");
+					jQuery('.ajax-loading1').fadeOut('fast');
+				},				
+				error:function(){
+					jQuery('.ajax-loading1').fadeOut('fast');	
+				}	
+			}); 
+	   }
+	   else
+	   {
+		   return false;
+	   }
+	 });
+});
+</script>

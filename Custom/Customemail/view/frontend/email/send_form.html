@@ -1,0 +1,30 @@
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<!--@subject Customer Item Inquiry: {{trans "%email_subject" email_subject=$product_sku}} @-->
+
+{{template config_path="design/email/header_template"}}
+<hr/>
+<table>
+    <tr class="email-intro">
+        <td>
+            <p class="greeting">{{trans "%customer_name," customer_name="Hello Customer Service"}}</p>
+            <p><br/>
+                {{trans "%name" name=$your_name}} of {{trans "%your_company" your_company=$your_company}} has submitted a request for more information on item: {{trans '<a href="%your_product_link">View Product Here</a>.' your_product_link=$your_product_link |raw}}
+            </p><br/>
+            <p><strong>Inquiry Details :</strong></p>
+            <p>                
+                <p><strong>Item:</strong>{{trans " %product_name" product_name=$product_name}}</p>
+                <p><strong>Part#:</strong>{{trans " %product_sku" product_sku=$product_sku}}</p>
+                <p><strong>Name:</strong>{{trans " %name" name=$your_name}}</p>
+                <p><strong>Company:</strong>{{trans " %name" name=$your_company}}</p>
+				<p><strong>Phone Number:</strong>{{trans " %your_phone" your_phone=$your_phone}}</p>
+                <p><strong>Email:</strong>{{trans " %email" email=$your_email}}</p>
+				<p><strong>Comment:</strong>{{trans " %comment" comment=$your_message}}</p>
+            </p>
+        </td>
+    </tr>
+</table>

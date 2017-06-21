@@ -1,0 +1,28 @@
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<!--@subject Customer Enquiry For {{var store.getFrontendName()}} Store @-->
+
+{{template config_path="design/email/header_template"}}
+
+<table>
+    <tr class="email-intro">
+        <td>
+            <p class="greeting">{{trans "%customer_name," customer_name="Hello Admin"}}</p>
+            <p>
+                {{trans 'There is an enquiry for store'}}
+            </p>
+            <p><strong>Enquiry Details :</strong></p>
+            <p>                
+                <p>{{trans "Title: %title" title=$title}}</p>
+				<p>{{trans "Subject: %subject" subject=$subject}}</p>
+				<p>{{trans "Email: %email" email=$email}}</p>
+
+				<p>{{trans "Message: %message" message=$message}}</p>
+            </p>
+        </td>
+    </tr>
+</table>

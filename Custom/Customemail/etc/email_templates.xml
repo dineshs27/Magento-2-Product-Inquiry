@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Email/etc/email_templates.xsd">
+	<template id="send_email_email_template" label="Email Form" file="send_form.html" type="html" module="Custom_Customemail" area="frontend"/>
+	<template id="send_button_email_template" label="Email Form Button" file="send_form_button.html" type="html" module="Custom_Customemail" area="frontend"/>
+</config>
